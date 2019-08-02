@@ -1,0 +1,57 @@
+{
+	"name": "flutter-internationalize",
+	"displayName": "flutter-internationalize",
+	"description": "Flutter internationalizing tools",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.36.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.open"
+	],
+	"main": "./src/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.open",
+				"title": "Flutter Internationalize : Open"
+			}
+		]
+	},
+	"scripts": {
+		"test": "node ./test/runTest.js",
+		"start": "webpack --watch --config ./webpack.config.js --mode development",
+		"build": "webpack --config ./webpack.config.js --mode development"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.5",
+		"@babel/preset-env": "^7.5.5",
+		"@babel/preset-react": "^7.0.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.6",
+		"@types/node": "^10.12.21",
+		"@types/vscode": "^1.36.0",
+		"babel-loader": "^8.0.6",
+		"eslint": "^5.13.0",
+		"glob": "^7.1.4",
+		"less": "^3.9.0",
+		"less-loader": "^5.0.0",
+		"mocha": "^6.1.4",
+		"react-scripts": "^3.0.1",
+		"typescript": "^3.3.1",
+		"vscode-test": "^1.0.2",
+		"webpack": "^4.39.1",
+		"webpack-cli": "^3.3.6",
+		"webpack-dev-server": "^3.7.2"
+	},
+	"dependencies": {
+		"@ant-design/dark-theme": "^0.2.2",
+		"antd": "^3.20.7",
+		"react": "^16.8.6",
+		"react-data-grid": "^6.1.0",
+		"react-dom": "^16.8.6"
+	}
+}
