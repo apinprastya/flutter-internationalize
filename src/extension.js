@@ -2,11 +2,13 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const path = require('path')
+const LocaleManager = require('./localemanager')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
 var _panel;
+var _localeManager;
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -22,6 +24,10 @@ function activate(context) {
 			});
 		_panel = panel;
 		updatePanel(context);
+		_localeManager = new LocaleManager.LocaleManager(() => {
+			_panel.webview.postMessage({ 'type': 'initialLoaded', data: _localeManager.getData() })
+		});
+		_localeManager.init();
 	});
 
 	context.subscriptions.push(disposable);

@@ -52,6 +52,7 @@
 		"antd": "^3.20.7",
 		"react": "^16.8.6",
 		"react-data-grid": "^6.1.0",
-		"react-dom": "^16.8.6"
+		"react-dom": "^16.8.6",
+		"react-resizable": "^1.8.0"
 	}
 }
