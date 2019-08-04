@@ -23,6 +23,7 @@ const MyTable = (props) => {
         return {
             title: col,
             dataIndex: col,
+            width: col === '_id' ? 150 : 300,
             onCell: record => ({
                 record,
                 editable: true,
@@ -30,7 +31,11 @@ const MyTable = (props) => {
                 title: col,
                 handleSave: handleSave,
             }),
-            render: (s) => s || '#empty#'
+            render: (text) => (
+                <div style={{ wordWrap: 'break-word' }}>
+                    {text || '#empty#'}
+                </div>
+            ),
         };
     });
 
@@ -40,7 +45,8 @@ const MyTable = (props) => {
 
     const cols1 = [...cols, {
         title: 'op',
-        dataIndex: 'operation',
+        dataIndex: 'op',
+        width: 50,
         render: (text, record) =>
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._key)}>
                 <a href="javascript:;">Delete</a>
@@ -50,6 +56,7 @@ const MyTable = (props) => {
     return !globalState.loaded ? 'LOADING...' :
         <div>
             <Table
+                style={{ tableLayout: "fixed" }}
                 rowKey="_key"
                 components={components}
                 rowClassName={() => 'editable-row'}
@@ -58,6 +65,7 @@ const MyTable = (props) => {
                 columns={cols1}
                 size="small"
                 pagination={false}
+                scroll={{ x: true }}
             />
         </div>;
 }
