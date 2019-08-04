@@ -10,9 +10,15 @@ const EditableRow = ({ form, index, ...props }) => (
 );
 
 class EditableCell extends React.Component {
-    state = {
-        editing: false,
-    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            editing: false,
+            value: ''
+        };
+        this.onChange.bind(this)
+    }
 
     toggleEdit = () => {
         const editing = !this.state.editing;
@@ -24,33 +30,27 @@ class EditableCell extends React.Component {
     };
 
     save = e => {
-        const { record, handleSave } = this.props;
-        this.form.validateFields((error, values) => {
-            if (error && error[e.currentTarget.id]) {
-                return;
-            }
-            this.toggleEdit();
-            handleSave({ ...record, ...values });
-        });
+        this.toggleEdit();
     };
+
+    onKeyDown = (event) => {
+        if (event.keyCode === 13 && event.ctrlKey) {
+            this.props.handleSave({ ...this.props.record, [this.props.dataIndex]: this.props.record[this.props.dataIndex] + '\n' });
+        } else if (event.keyCode === 13) {
+            this.toggleEdit();
+        }
+    }
+
+    onChange = (e) => {
+        this.props.handleSave({ ...this.props.record, [this.props.dataIndex]: e.target.value });
+    }
 
     renderCell = form => {
         this.form = form;
         const { children, dataIndex, record, title } = this.props;
         const { editing } = this.state;
-        return editing ? (
-            <Form.Item style={{ margin: 0 }}>
-                {form.getFieldDecorator(dataIndex, {
-                    /*rules: [
-                        {
-                            required: true,
-                            message: `Required.`,
-                        },
-                    ],*/
-                    initialValue: record[dataIndex],
-                })(<Input.TextArea ref={node => (this.input = node)} onBlur={this.save} autosize={true} />)}
-            </Form.Item>
-        ) : (
+        return editing ? <Input.TextArea value={record[dataIndex]} ref={node => (this.input = node)} onBlur={this.save} autosize={true} onChange={this.onChange} onKeyDown={this.onKeyDown} />
+            : (
                 <div
                     style={{ paddingRight: 24, whiteSpace: 'pre-line' }}
                     onClick={this.toggleEdit}
