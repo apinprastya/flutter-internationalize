@@ -1,0 +1,21 @@
+.group-list {
+    background-color: var(--vscode-body-foreground);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: 'pointer';
+    border-bottom: 1px solid #404040
+}
+
+.group-list-selected {
+    background-color: #2d98fc;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: 'pointer';
+    border-bottom: 1px solid #404040
+}
+
+.group-list:hover {
+    background-color: #2d98fc
+}

@@ -24,7 +24,7 @@ class LocaleManager {
     getData() {
         return {
             groups: this.groups,
-            langs: this.lang,
+            langs: this.langs,
             cols: this.cols,
             data: this.data,
         }
@@ -83,8 +83,8 @@ class LocaleManager {
         }
     }
 
-    async save(commands) {
-        for (let i = 0; i < commands.length; i++) {
+    async save(data) {
+        /*for (let i = 0; i < commands.length; i++) {
             try {
                 const command = commands[i];
                 const { data } = command;
@@ -119,7 +119,8 @@ class LocaleManager {
             } catch (e) {
                 console.log(e)
             }
-        }
+        }*/
+        this.data = data;
         for (let i = 0; i < this.packs.length; i++) {
             await this.packs[i].save(this.data)
         }

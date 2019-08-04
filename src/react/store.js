@@ -7,11 +7,14 @@ const intialState = {
     data: null,
     currentGroup: '',
     groups: [],
+    langs: [],
     cols: [],
     commands: [],
     saving: false,
     showAddGroup: false,
-    groupNameValue: ''
+    groupNameValue: '',
+    currentKey: undefined,
+    selectedData: undefined,
 };
 
 const vscode = acquireVsCodeApi();
@@ -30,25 +33,30 @@ const mainReducer = (state, action) => {
                     } else return v;
                 })
             }
+            vscode.postMessage({ type: 'save', payload: data })
             return { ...state, data, commands: [...state.commands, { 'group': state.currentGroup, type: 'updateRow', 'data': action.payload }] }
+        }
+        case 'insertNewRow': {
+            const values = { ...action.payload, '_key': '' + state.data[state.currentGroup].length }
+            const data = {
+                ...state.data, [state.currentGroup]: [...state.data[state.currentGroup], values]
+            }
+            vscode.postMessage({ type: 'save', payload: data })
+            return { ...state, data, currentKey: values['_key'], selectedData: values }
         }
         case 'removeRow': {
             const data = {
                 ...state.data, [state.currentGroup]: state.data[state.currentGroup].filter(v => v._key !== action.payload)
             }
+            vscode.postMessage({ type: 'save', payload: data })
             return {
-                ...state, data,
+                ...state, data, selectedData: undefined,
                 commands: [...state.commands, { 'group': state.currentGroup, type: 'deleteRow', 'data': action.payload }]
             }
         }
         case 'addRow': {
-            const newData = { _key: state.data[state.currentGroup].length, _id: '' };
-            const data = {
-                ...state.data, [state.currentGroup]: [...state.data[state.currentGroup], newData]
-            }
             return {
-                ...state, data,
-                commands: [...state.commands, { 'group': state.currentGroup, type: 'addRow', 'data': { _key: state.data[state.currentGroup].length, _id: '' } }]
+                ...state, selectedData: {}, currentKey: undefined
             }
         }
         case 'save': {
@@ -59,12 +67,13 @@ const mainReducer = (state, action) => {
             return { ...state, saving: false, commands: [] };
         }
         case 'selectGroup': {
-            return { ...state, currentGroup: action.payload }
+            return { ...state, currentGroup: action.payload, currentKey: undefined, selectedData: undefined }
         }
         case 'addGroup': {
             const data = {
                 ...state.data, [action.payload]: []
             }
+            vscode.postMessage({ type: 'save', payload: data })
             return {
                 ...state, data, currentGroup: action.payload, groupNameValue: '', showAddGroup: false,
                 groups: [...state.groups, action.payload], commands: [...state.commands, { type: 'addGroup', data: action.payload }]
@@ -72,13 +81,18 @@ const mainReducer = (state, action) => {
         }
         case 'removeGroup': {
             const groups = state.groups.filter(v => v !== state.currentGroup)
-            return { ...state, groups, currentGroup: groups[0], commands: [...state.commands, { type: 'removeGroup', data: state.currentGroup }] }
+            const { [state.currentGroup]: value, ...data } = state.data;
+            vscode.postMessage({ type: 'save', payload: data })
+            return { ...state, groups, currentGroup: groups[0], data, commands: [...state.commands, { type: 'removeGroup', data: state.currentGroup }] }
         }
         case 'showAddGroup': {
             return { ...state, showAddGroup: action.payload }
         }
         case 'changeGroupAddName': {
             return { ...state, groupNameValue: action.payload }
+        }
+        case 'selectKey': {
+            return { ...state, currentKey: action.payload, selectedData: state.data[state.currentGroup].find(v => v._key === action.payload) }
         }
         default: {
             return state;

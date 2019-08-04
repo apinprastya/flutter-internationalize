@@ -3,8 +3,16 @@
 	"displayName": "flutter-internationalize",
 	"description": "Flutter internationalizing tools",
 	"version": "0.0.1",
+	"publisher": "GitHub",
 	"engines": {
 		"vscode": "^1.36.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/apinprastya/flutter-internationalize"
+	},
+	"bugs": {
+		"url": "https://github.com/apinprastya/flutter-internationalize/issues"
 	},
 	"categories": [
 		"Other"

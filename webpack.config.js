@@ -9,7 +9,7 @@ module.exports = {
                 use: ['babel-loader']
             },
             {
-                test: /\.(less)$/,
+                test: /\.(less|css)$/,
                 use: [{
                     loader: 'style-loader',
                 }, {
