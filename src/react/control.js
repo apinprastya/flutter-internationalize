@@ -2,16 +2,7 @@ import React from 'react'
 import { Row, Col, Select, Button, Divider } from 'antd'
 import { GlobalStore } from './store'
 import AddGroup from './addgroup';
-
-const Action = (props) => {
-    return <Row>
-        <Col span={24}>
-            <Button onClick={props.onAddRow} icon="plus">Add Row</Button>
-            {props.commands.length > 0 &&
-                <Button style={{ marginLeft: 8 }} loading={props.saving} onClick={props.onSave} icon="save">Save</Button>}
-        </Col>
-    </Row>
-}
+import Action from './action'
 
 const Control = (props) => {
     const [globalState, dispatch] = React.useContext(GlobalStore)
@@ -24,18 +15,13 @@ const Control = (props) => {
         dispatch({ type: 'showAddGroup', payload: true })
     }
 
-    const onAddRow = () => {
-        dispatch({ type: 'addRow' })
-    }
+
 
     const onRemoveClick = () => {
         dispatch({ type: 'removeGroup' })
     }
 
-    const onSave = () => {
-        if (!globalState.saving)
-            dispatch({ type: 'save' })
-    }
+
 
     return <div style={{ paddingTop: 20 }}>
         <p>Flutter Internationalize</p>
@@ -59,7 +45,7 @@ const Control = (props) => {
             </Col>
         </Row>
         <Divider />
-        <Action saving={globalState.saving} commands={globalState.commands} onAddRow={onAddRow} onSave={onSave} />
+        <Action />
         <AddGroup />
         <div style={{ height: 20 }} />
     </div>
