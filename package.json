@@ -2,8 +2,10 @@
 	"name": "flutter-internationalize",
 	"displayName": "flutter-internationalize",
 	"description": "Flutter internationalizing tools",
-	"version": "0.0.1",
-	"publisher": "GitHub",
+	"version": "0.0.2",
+	"publisher": "apin",
+	"author": "Apin Prastya <apin.klas@gmail.com> (https://lekapin.com)",
+	"icon": "resources/icon.png",
 	"engines": {
 		"vscode": "^1.36.0"
 	},
@@ -14,13 +16,14 @@
 	"bugs": {
 		"url": "https://github.com/apinprastya/flutter-internationalize/issues"
 	},
+	"preview": true,
 	"categories": [
 		"Other"
 	],
 	"activationEvents": [
 		"onCommand:extension.open"
 	],
-	"main": "./src/extension.js",
+	"main": "./dist/main.js",
 	"contributes": {
 		"commands": [
 			{
@@ -30,6 +33,7 @@
 		]
 	},
 	"scripts": {
+		"vscode:prepublish": "webpack --env.production",
 		"test": "node ./test/runTest.js",
 		"start": "webpack --watch --config ./webpack.config.js --mode development",
 		"build": "webpack --config ./webpack.config.js --mode development"
@@ -43,6 +47,7 @@
 		"@types/node": "^10.12.21",
 		"@types/vscode": "^1.36.0",
 		"babel-loader": "^8.0.6",
+		"babel-polyfill": "^6.26.0",
 		"eslint": "^5.13.0",
 		"glob": "^7.1.4",
 		"less": "^3.9.0",
@@ -57,10 +62,14 @@
 	},
 	"dependencies": {
 		"@ant-design/dark-theme": "^0.2.2",
+		"@babel/polyfill": "^7.4.4",
 		"antd": "^3.20.7",
+		"core-js": "^3.1.4",
+		"js-loader": "^0.1.1",
 		"react": "^16.8.6",
 		"react-data-grid": "^6.1.0",
 		"react-dom": "^16.8.6",
-		"react-resizable": "^1.8.0"
+		"react-resizable": "^1.8.0",
+		"regenerator-runtime": "^0.13.3"
 	}
 }

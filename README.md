@@ -4,8 +4,9 @@ Will help you to create json locale files
 
 ## Features
 
-Edit locale text from table.
-![Screenshot](https://user-images.githubusercontent.com/1171479/62420072-eee81100-b6b6-11e9-8fc1-0894359d1781.png)
+Better editor for localization.
+
+![Screenshot](https://user-images.githubusercontent.com/1171479/62425540-fdf5b000-b704-11e9-9e7b-e64964d61118.png)
 
 
 ## Requirements
@@ -61,7 +62,7 @@ Open command (Ctrl + Shift + P) and run "Flutter Internationalize: Open"
 
 If you want to add new language just add new text_[lang].json
 
-**This extension is still on early develpment, a lot of thing still be able to improved**
+**This extension is still on very early development, a lot of thing still be able to improved**
 
 
 ## Release Notes
