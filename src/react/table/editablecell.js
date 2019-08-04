@@ -41,12 +41,12 @@ class EditableCell extends React.Component {
         return editing ? (
             <Form.Item style={{ margin: 0 }}>
                 {form.getFieldDecorator(dataIndex, {
-                    rules: [
+                    /*rules: [
                         {
                             required: true,
-                            message: `${title} is required.`,
+                            message: `Required.`,
                         },
-                    ],
+                    ],*/
                     initialValue: record[dataIndex],
                 })(<Input.TextArea ref={node => (this.input = node)} onBlur={this.save} autosize={true} />)}
             </Form.Item>

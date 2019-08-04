@@ -25,9 +25,18 @@ function activate(context) {
 		_panel = panel;
 		updatePanel(context);
 		_localeManager = new LocaleManager.LocaleManager(() => {
-			_panel.webview.postMessage({ 'type': 'initialLoaded', data: _localeManager.getData() })
+			_panel.webview.postMessage({ type: 'initialLoaded', data: _localeManager.getData() })
 		});
 		_localeManager.init();
+		_panel.webview.onDidReceiveMessage(msg => {
+			switch (msg.type) {
+				case 'save': {
+					_localeManager.save(msg.payload).then(v => {
+						_panel.webview.postMessage({ type: 'saved' })
+					})
+				}
+			}
+		});
 	});
 
 	context.subscriptions.push(disposable);

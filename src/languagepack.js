@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const fs = require('fs')
 const { workspace } = vscode;
 
 class LanguagePack {
@@ -21,8 +22,18 @@ class LanguagePack {
         this.lang = fname.split('_')[1].split('.')[0];
     }
 
-    async save() {
-
+    async save(data) {
+        let toSave = {};
+        for (let k in data) {
+            toSave[k] = data[k].map(v => {
+                return {
+                    'id': v._id,
+                    'text': v[this.lang]
+                }
+            })
+        }
+        const str = JSON.stringify(toSave, null, 2);
+        fs.writeFileSync(this.uri.path, str)
     }
 }
 

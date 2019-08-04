@@ -6,12 +6,13 @@ const { workspace } = vscode;
 class LocaleManager {
 
     constructor(loadedCallback) {
+        this.packs = []
         this.groups = []
         this.langs = []
         this.description = {}
         this.data = {};
         this.loadedCallback = loadedCallback;
-        this.cols = ['_id', 'desc'];
+        this.cols = ['_id'];
         this.count = 0;
         this.totalCount = 0;
         this.init.bind(this)
@@ -57,6 +58,9 @@ class LocaleManager {
     }
 
     load(pack, init = false) {
+        this.packs.push(pack)
+        this.cols.push(pack.lang)
+        this.langs.push(pack.lang)
         for (let key in pack.json) {
             if (init) {
                 this.groups.push(key)
@@ -69,8 +73,6 @@ class LocaleManager {
                 } else {
                     let d = this.data[key].find(v => v._id == e.id);
                     d[pack.lang] = e.text;
-                    this.cols.push(pack.lang)
-                    this.langs.push(pack.lang)
                 }
                 i++
             });
@@ -78,6 +80,48 @@ class LocaleManager {
         if (!init) {
             this.count++;
             if (this.count == this.totalCount) this.loadedCallback();
+        }
+    }
+
+    async save(commands) {
+        for (let i = 0; i < commands.length; i++) {
+            try {
+                const command = commands[i];
+                const { data } = command;
+                switch (command.type) {
+                    case 'addRow': {
+                        this.data[command.group] = [...this.data[command.group], { _key: data['_key'] }]
+                        break;
+                    }
+                    case 'updateRow': {
+                        this.data[command.group] = this.data[command.group].map(v => {
+                            if (v._key === data._key) {
+                                return { ...v, ...data }
+                            }
+                            return v;
+                        })
+                        break;
+                    }
+                    case 'removeRow': {
+                        this.data[commands.group] = this.data[commands.group].filter(v => v['_key'] !== data)
+                        break;
+                    }
+                    case 'addGroup': {
+                        this.groups = [...this.groups, data]
+                        this.data[data] = []
+                        break;
+                    }
+                    case 'removeGroup': {
+                        delete this.data[data];
+                        break;
+                    }
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        for (let i = 0; i < this.packs.length; i++) {
+            await this.packs[i].save(this.data)
         }
     }
 }

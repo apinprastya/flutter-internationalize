@@ -15,17 +15,6 @@ const MyTable = (props) => {
         },
     };
 
-    /*{
-        title: 'operation',
-        dataIndex: 'operation',
-        render: (text, record) =>
-            dataSource.length >= 1 ? (
-                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-                    <a href="javascript:;">Delete</a>
-                </Popconfirm>
-            ) : null,
-    },*/
-
     const handleSave = row => {
         dispatch({ type: 'updateRow', payload: row })
     }
@@ -45,6 +34,19 @@ const MyTable = (props) => {
         };
     });
 
+    const handleDelete = key => {
+        dispatch({ type: 'removeRow', payload: key })
+    }
+
+    const cols1 = [...cols, {
+        title: 'op',
+        dataIndex: 'operation',
+        render: (text, record) =>
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._key)}>
+                <a href="javascript:;">Delete</a>
+            </Popconfirm>
+    }];
+
     return !globalState.loaded ? 'LOADING...' :
         <div>
             <Table
@@ -53,7 +55,7 @@ const MyTable = (props) => {
                 rowClassName={() => 'editable-row'}
                 bordered
                 dataSource={globalState.data[globalState.currentGroup]}
-                columns={cols}
+                columns={cols1}
                 size="small"
                 pagination={false}
             />
