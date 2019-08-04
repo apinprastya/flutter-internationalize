@@ -94,6 +94,14 @@ const mainReducer = (state, action) => {
         case 'selectKey': {
             return { ...state, currentKey: action.payload, selectedData: state.data[state.currentGroup].find(v => v._key === action.payload) }
         }
+        case 'export': {
+            vscode.postMessage({ type: 'export' })
+            return state;
+        }
+        case 'import': {
+            vscode.postMessage({ type: 'import' })
+            return state;
+        }
         default: {
             return state;
         }

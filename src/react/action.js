@@ -17,6 +17,14 @@ const Action = (props) => {
         dispatch({ type: 'removeGroup' })
     }
 
+    const onImport = () => {
+        dispatch({ type: 'import' })
+    }
+
+    const onExport = () => {
+        dispatch({ type: 'export' })
+    }
+
     return <Row>
         <Col span={24}>
             <Button.Group>
@@ -28,6 +36,10 @@ const Action = (props) => {
                 }
             </Button.Group>
             <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="plus" type="default">Add key</Button>
+            <Button.Group style={{ marginLeft: 10 }}>
+                <Button onClick={onImport} icon="excel" type="default">Import excel</Button>
+                <Button onClick={onExport} icon="plus" type="default">Export excel</Button>
+            </Button.Group>
         </Col>
     </Row>
 }

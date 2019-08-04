@@ -4,7 +4,7 @@
 const vscode = require('vscode');
 const path = require('path')
 const LocaleManager = require('./localemanager')
-//require('babel-polyfill')
+const xlsx = require('xlsx')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -16,12 +16,11 @@ var _localeManager;
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-	console.log('OH YEA ???');
 	let disposable = vscode.commands.registerCommand('extension.open', function () {
-		console.log('OH YEA 456');
 		const panel = vscode.window.createWebviewPanel('flutter-internationalize', 'Flutter Internationalize', vscode.ViewColumn.One,
 			{
 				enableScripts: true,
+				retainContextWhenHidden: true,
 				localResourceRoots: [
 					vscode.Uri.file(path.join(context.extensionPath, 'dist'))
 				]
@@ -38,6 +37,14 @@ function activate(context) {
 					_localeManager.save(msg.payload).then(v => {
 						_panel.webview.postMessage({ type: 'saved' })
 					})
+				}
+				case 'import': {
+					vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, filters: { 'Spreadsheet': ['xls', 'xlsx'] }, canSelectMany: false })
+						.then(v => {
+							if (v && v.length === 1) {
+								const xl = xlsx.readFile(v[0].path);
+							}
+						})
 				}
 			}
 		});
