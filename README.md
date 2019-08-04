@@ -1,65 +1,84 @@
-# flutter-internationalize README
+# Flutter internationalize
 
-This is the README for your extension "flutter-internationalize". After writing up a brief description, we recommend including the following sections.
+Will help you to create json locale files
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Edit locale text from table.
+![Screenshot](https://user-images.githubusercontent.com/1171479/62420072-eee81100-b6b6-11e9-8fc1-0894359d1781.png)
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+You will need to create a file calls text_desc.json and also the text_[lang].json for the entry point.
+The files must be at locales folder on your root project folder.
 
-## Extension Settings
+Example text_desc.json :
+```javascript
+{
+  "global": [
+    {
+      "id": "save",
+      "text": "Use to indicate save document"
+    },
+    {
+      "id": "cancel",
+      "text": "Use to indicate cancel action"
+    }
+  ],
+  "mainmenu": [
+    {
+      "id": "open",
+      "text": "Use to indicate open document"
+    }
+  ]
+}
+```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+example of text_en.json
+```javascript
+{
+  "global": [
+    {
+      "id": "save",
+      "text": "Save"
+    },
+    {
+      "id": "cancel",
+      "text": "Cancel"
+    }
+  ],
+  "mainmenu": [
+    {
+      "id": "open",
+      "text": "Open"
+    }
+  ]
+}
+```
 
-For example:
+Open command (Ctrl + Shift + P) and run "Flutter Internationalize: Open"
 
-This extension contributes the following settings:
+If you want to add new language just add new text_[lang].json
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+**This extension is still on early develpment, a lot of thing still be able to improved**
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+### 0.0.1
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+- Initial release
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+## Todo
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- [ ] Auto generate required files
+- [ ] Write flutter plugin to load files generated from this extension
+- [ ] Mapping key from string to int for save memory
 
 **Enjoy!**
