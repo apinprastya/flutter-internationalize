@@ -33,8 +33,6 @@ const Editor = (props) => {
         dispatch({ type: 'removeRow', payload: v })
     }
 
-    console.log(globalState.selectedData)
-
     return <Form style={{ marginLeft: 10 }} onSubmit={onSave}>
         {globalState.selectedData && <React.Fragment>
             {cols.map(v => {
@@ -55,7 +53,6 @@ const Editor = (props) => {
                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(globalState.selectedData._key)}>
                     <Button type="danger" htmlType="submit" icon="delete">Remove</Button>
                 </Popconfirm>
-
             </Button.Group>
         </React.Fragment>}
     </Form>

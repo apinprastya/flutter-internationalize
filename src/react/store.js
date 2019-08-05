@@ -15,6 +15,7 @@ const intialState = {
     groupNameValue: '',
     currentKey: undefined,
     selectedData: undefined,
+    lastKey: 10000,
 };
 
 const vscode = acquireVsCodeApi();
@@ -27,8 +28,7 @@ const mainReducer = (state, action) => {
         case 'updateRow': {
             const data = {
                 ...state.data, [state.currentGroup]: state.data[state.currentGroup].map(v => {
-
-                    if (v._key === action.payload._key) {
+                    if (v._key === state.currentKey) {
                         return { ...v, ...action.payload }
                     } else return v;
                 })
@@ -37,7 +37,7 @@ const mainReducer = (state, action) => {
             return { ...state, data, commands: [...state.commands, { 'group': state.currentGroup, type: 'updateRow', 'data': action.payload }] }
         }
         case 'insertNewRow': {
-            const values = { ...action.payload, '_key': '' + state.data[state.currentGroup].length }
+            const values = { ...action.payload, '_key': '' + (lastKey++) }
             const data = {
                 ...state.data, [state.currentGroup]: [...state.data[state.currentGroup], values]
             }

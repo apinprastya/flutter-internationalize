@@ -39,9 +39,9 @@ class LocaleManager {
         //TODO: check multiple folders
         if (folders.length == 1) {
             this.rootPath = folders[0].uri.path;
-            const a = await workspace.findFiles('**/locales/text_desc.json', null, 5)
+            const a = await workspace.findFiles('**/locales/desc.json', null, 5)
             if (a.length === 0) {
-                vscode.window.showErrorMessage('No locales/text_desc.json found')
+                vscode.window.showErrorMessage('No locales/desc.json found')
             } else {
                 this.readLocaleFile(a[0]);
             }
@@ -51,13 +51,13 @@ class LocaleManager {
     async readLocaleFile(descFileUri) {
         this.description = await langPack.LanguagePack.load(descFileUri);
         this.load(this.description, true)
-        const allLocFiles = await workspace.findFiles('**/locales/text_*.json', null, 50)
-        this.totalCount = allLocFiles.length - 1;
+        const allLocFiles = (await workspace.findFiles('**/locales/*.json', null, 50)).
+            filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_'))
+        this.totalCount = allLocFiles.length;
         allLocFiles.forEach(v => {
-            if (!v.path.endsWith('_desc.json'))
-                langPack.LanguagePack.load(v).then(pack => {
-                    this.load(pack)
-                });
+            langPack.LanguagePack.load(v).then(pack => {
+                this.load(pack)
+            });
         });
     }
 
@@ -71,15 +71,15 @@ class LocaleManager {
                 this.data[key] = []
             }
             let i = 0;
-            pack.json[key].forEach(e => {
+            for (let k in pack.json[key]) {
                 if (init) {
-                    this.data[key].push({ _key: `${i}`, _id: e.id, desc: e.text })
+                    this.data[key].push({ _key: `${i}`, _id: k, desc: pack.json[key][k] })
                 } else {
-                    let d = this.data[key].find(v => v._id === e.id);
-                    d[pack.lang] = e.text;
+                    let d = this.data[key].find(v => v._id === k);
+                    d[pack.lang] = pack.json[key][k];
                 }
                 i++
-            });
+            }
         }
         if (!init) {
             this.count++;
@@ -90,7 +90,6 @@ class LocaleManager {
     async save(data) {
         this.data = data;
         for (let i = 0; i < this.langs.length; i++) {
-            //await this.packs[i].save(this.data)
             let toSave = {};
             for (let k in data) {
                 let g = {};

@@ -10,8 +10,6 @@ const KeyList = () => {
         dispatch({ type: 'selectKey', payload: v })
     }
 
-    console.log(globalState)
-
     return <List
         rowKey="id"
         style={{ height: 600, backgroundColor: '#303030' }}

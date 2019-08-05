@@ -11,56 +11,38 @@ Better editor for localization.
 
 ## Requirements
 
-You will need to create a file calls text_desc.json and also the text_[lang].json for the entry point.
-The files must be at locales folder on your root project folder.
+You will need to create a file called desc.json and also the [lang].json for the entry point in locales folders on root project folder.
 
-Example text_desc.json :
+Example desc.json :
 ```javascript
 {
-  "global": [
-    {
-      "id": "save",
-      "text": "Use to indicate save document"
-    },
-    {
-      "id": "cancel",
-      "text": "Use to indicate cancel action"
-    }
-  ],
-  "mainmenu": [
-    {
-      "id": "open",
-      "text": "Use to indicate open document"
-    }
-  ]
+  "global": {
+    "save": "Use to indicate save document",
+    "cancel": "Use to indicate cancel action",
+  },
+  "mainmenu": {
+    "open": "Use to indicate open document"
+  }
+}
+
+```
+
+example of EN_US.json
+```javascript
+{
+  "global": {
+    "save": "Save",
+    "cancel": "Cancel",
+  },
+  "mainmenu": {
+    "open": "Open"
+  }
 }
 ```
 
-example of text_en.json
-```javascript
-{
-  "global": [
-    {
-      "id": "save",
-      "text": "Save"
-    },
-    {
-      "id": "cancel",
-      "text": "Cancel"
-    }
-  ],
-  "mainmenu": [
-    {
-      "id": "open",
-      "text": "Open"
-    }
-  ]
-}
-```
+Open command palette (Ctrl + Shift + P) and run "Flutter Internationalize: Open"
 
-Open command (Ctrl + Shift + P) and run "Flutter Internationalize: Open"
-
-If you want to add new language just add new text_[lang].json
+If you want to add new language just add new [lang].json
 
 **This extension is still on very early development, a lot of thing still be able to improved**
 
@@ -68,6 +50,10 @@ If you want to add new language just add new text_[lang].json
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
+
+### 0.0.2
+
+- Break json format using new format
 
 ### 0.0.1
 
@@ -79,7 +65,7 @@ Users appreciate release notes as you update your extension.
 ## Todo
 
 - [ ] Auto generate required files
-- [ ] Write flutter plugin to load files generated from this extension
+- [ ] Auto generate dart code to read files
 - [ ] Mapping key from string to int for save memory
 
 **Enjoy!**

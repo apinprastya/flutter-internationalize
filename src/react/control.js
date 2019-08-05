@@ -5,20 +5,6 @@ import AddGroup from './addgroup';
 import Action from './action'
 
 const Control = () => {
-    const [globalState, dispatch] = React.useContext(GlobalStore)
-
-    const groupChanged = v => {
-        dispatch({ type: 'selectGroup', payload: v })
-    }
-
-    const onAddGroupClick = () => {
-        dispatch({ type: 'showAddGroup', payload: true })
-    }
-
-    const onRemoveClick = () => {
-        dispatch({ type: 'removeGroup' })
-    }
-
     return <div style={{ paddingTop: 20 }}>
         <Action />
         <AddGroup />
