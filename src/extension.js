@@ -4,7 +4,6 @@
 const vscode = require('vscode');
 const path = require('path')
 const LocaleManager = require('./localemanager')
-const xlsx = require('xlsx')
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -37,14 +36,23 @@ function activate(context) {
 					_localeManager.save(msg.payload).then(v => {
 						_panel.webview.postMessage({ type: 'saved' })
 					})
+					break;
 				}
 				case 'import': {
 					vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, filters: { 'Spreadsheet': ['xls', 'xlsx'] }, canSelectMany: false })
 						.then(v => {
 							if (v && v.length === 1) {
-								const xl = xlsx.readFile(v[0].path);
+								_localeManager.importExcel(path.join(context.extensionPath, 'locales'), v[0].path)
 							}
 						})
+					break;
+				}
+				case 'export': {
+					vscode.window.showSaveDialog({ filters: { 'Spreadsheet': ['xls', 'xlsx'] }, saveLabel: "Export" })
+						.then(v => {
+							_localeManager.saveExport(v.path);
+						})
+					break;
 				}
 			}
 		});

@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const langPack = require('./languagepack')
+const XLSX = require('xlsx')
 
 const { workspace } = vscode;
 
@@ -71,7 +72,7 @@ class LocaleManager {
                 if (init) {
                     this.data[key].push({ _key: `${i}`, _id: e.id, desc: e.text })
                 } else {
-                    let d = this.data[key].find(v => v._id == e.id);
+                    let d = this.data[key].find(v => v._id === e.id);
                     d[pack.lang] = e.text;
                 }
                 i++
@@ -84,45 +85,36 @@ class LocaleManager {
     }
 
     async save(data) {
-        /*for (let i = 0; i < commands.length; i++) {
-            try {
-                const command = commands[i];
-                const { data } = command;
-                switch (command.type) {
-                    case 'addRow': {
-                        this.data[command.group] = [...this.data[command.group], { _key: data['_key'] }]
-                        break;
-                    }
-                    case 'updateRow': {
-                        this.data[command.group] = this.data[command.group].map(v => {
-                            if (v._key === data._key) {
-                                return { ...v, ...data }
-                            }
-                            return v;
-                        })
-                        break;
-                    }
-                    case 'removeRow': {
-                        this.data[commands.group] = this.data[commands.group].filter(v => v['_key'] !== data)
-                        break;
-                    }
-                    case 'addGroup': {
-                        this.groups = [...this.groups, data]
-                        this.data[data] = []
-                        break;
-                    }
-                    case 'removeGroup': {
-                        delete this.data[data];
-                        break;
-                    }
-                }
-            } catch (e) {
-                console.log(e)
-            }
-        }*/
         this.data = data;
         for (let i = 0; i < this.packs.length; i++) {
             await this.packs[i].save(this.data)
+        }
+    }
+
+    async saveExport(path) {
+        const wb = XLSX.utils.book_new();
+        for (let k in this.data) {
+            let wsdata = [['key', ...this.langs]];
+            this.data[k].forEach(v => {
+                let arr = [];
+                arr.push(v._id)
+                this.langs.forEach(l => {
+                    arr.push(v[l])
+                })
+                wsdata.push(arr)
+            })
+            let ws = XLSX.utils.aoa_to_sheet(wsdata);
+            XLSX.utils.book_append_sheet(wb, ws, k)
+        }
+        XLSX.writeFile(wb, path);
+    }
+
+    async importExcel(dir, excelPath) {
+        const wb = XLSX.readFile(excelPath);
+        let data = {}
+        for (let k in wb.Sheets) {
+            const s = wb.Sheets[k]
+            console.log(wb.Sheets[k])
         }
     }
 }

@@ -19,7 +19,7 @@ class LanguagePack {
         this.json = JSON.parse(text.getText());
         const splitted = this.uri.path.split('/');
         const fname = splitted[splitted.length - 1]
-        this.lang = fname.split('_')[1].split('.')[0];
+        this.lang = fname.substring(5).split('.')[0];
     }
 
     async save(data) {
