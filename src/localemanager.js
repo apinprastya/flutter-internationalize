@@ -1,6 +1,8 @@
 const vscode = require('vscode');
 const langPack = require('./languagepack')
 const XLSX = require('xlsx')
+const fs = require('fs')
+const path = require('path')
 
 const { workspace } = vscode;
 
@@ -20,6 +22,7 @@ class LocaleManager {
         this.load.bind(this)
         this.readLocaleFile.bind(this)
         this.getData.bind(this)
+        this.rootPath = '';
     }
 
     getData() {
@@ -35,7 +38,7 @@ class LocaleManager {
         const folders = workspace.workspaceFolders;
         //TODO: check multiple folders
         if (folders.length == 1) {
-            const rootPath = folders[0].uri.path;
+            this.rootPath = folders[0].uri.path;
             const a = await workspace.findFiles('**/locales/text_desc.json', null, 5)
             if (a.length === 0) {
                 vscode.window.showErrorMessage('No locales/text_desc.json found')
@@ -86,8 +89,16 @@ class LocaleManager {
 
     async save(data) {
         this.data = data;
-        for (let i = 0; i < this.packs.length; i++) {
-            await this.packs[i].save(this.data)
+        for (let i = 0; i < this.langs.length; i++) {
+            //await this.packs[i].save(this.data)
+            let toSave = {};
+            for (let k in data) {
+                let g = {};
+                data[k].forEach(v => g[v._id] = v[this.langs[i]])
+                toSave[k] = g;
+            }
+            const str = JSON.stringify(toSave, null, 2);
+            fs.writeFileSync(path.join(this.rootPath, 'locales', `${this.langs[i]}.json`), str)
         }
     }
 
@@ -112,10 +123,37 @@ class LocaleManager {
     async importExcel(dir, excelPath) {
         const wb = XLSX.readFile(excelPath);
         let data = {}
+        let langs = []
+        let langInited = false;
         for (let k in wb.Sheets) {
             const s = wb.Sheets[k]
-            console.log(wb.Sheets[k])
+            let arr = []
+            let r = 2;
+            let idMap = {}
+            const maxCell = s['!ref'].split(':')[1]
+            const maxCol = maxCell.substring(0, 1).charCodeAt(0);
+            const maxRow = parseInt(maxCell.substring(1));
+            for (let i = 66; i <= maxCol; i++) {
+                idMap[i] = s[`${String.fromCharCode(i)}1`]['v']
+                if (!langInited) {
+                    langs.push(s[`${String.fromCharCode(i)}1`]['v'])
+                }
+            }
+            langInited = true;
+            for (r = 2; r <= maxRow; r++) {
+                let obj = { '_id': s[`A${r}`]['v'], '_key': r }
+                for (let c = 66; c <= maxCol; c++) {
+                    obj[idMap[c]] = s[`${String.fromCharCode(c)}${r}`]['v']
+                }
+                arr.push(obj)
+            }
+            data[k] = arr;
         }
+        this.data = data;
+        this.langs = langs
+        this.cols = ['_id', ...langs]
+        this.save(data);
+        this.loadedCallback();
     }
 }
 
