@@ -41,7 +41,18 @@ class LocaleManager {
             this.rootPath = folders[0].uri.path;
             const a = await workspace.findFiles('**/locales/desc.json', null, 5)
             if (a.length === 0) {
-                vscode.window.showErrorMessage('No locales/desc.json found')
+                if (!fs.existsSync(path.join(this.rootPath, 'locales')))
+                    fs.mkdirSync(path.join(this.rootPath, 'locales'))
+                const desc = {
+                    main: { sample: 'This is sample description', save: 'Use to save document' }
+                }
+                fs.writeFileSync(path.join(this.rootPath, 'locales', 'desc.json'), JSON.stringify(desc, null, 2))
+                const EN_US = {
+                    main: { sample: 'Example', save: 'Save' }
+                }
+                fs.writeFileSync(path.join(this.rootPath, 'locales', 'EN_US.json'), JSON.stringify(EN_US, null, 2))
+                vscode.window.showInformationMessage("We have created desc.json and EN.json files for initial text")
+                this.init()
             } else {
                 this.readLocaleFile(a[0]);
             }

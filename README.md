@@ -51,7 +51,7 @@ If you want to add new language just add new [lang].json
 
 Users appreciate release notes as you update your extension.
 
-### 0.0.2
+### 0.0.3
 
 - Break json format using new format
 
@@ -64,7 +64,7 @@ Users appreciate release notes as you update your extension.
 
 ## Todo
 
-- [ ] Auto generate required files
+- [x] Auto generate required files
 - [ ] Auto generate dart code to read files
 - [ ] Mapping key from string to int for save memory
 
