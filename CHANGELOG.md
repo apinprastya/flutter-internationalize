@@ -1,9 +1,18 @@
 # Change Log
 
-All notable changes to the "flutter-internationalize" extension will be documented in this file.
+## 0.0.4
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- auto generated initial json files
+- auto generated dart file for load and read the text
 
-## [Unreleased]
+## 0.0.3
 
-- Initial release
+- adding import and export to excel
+
+## 0.0.2
+
+- change editor view
+
+## 0.0.1
+
+- initial preview release
