@@ -2,11 +2,16 @@ const vscode = require('vscode');
 const path = require('path')
 const LocaleManager = require('./localemanager')
 
-var _panel;
+var _panel = null;
 var _localeManager;
 
 function activate(context) {
 	let disposable = vscode.commands.registerCommand('extension.open', function () {
+		const column = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined;
+		if (_panel) {
+			_panel.reveal(column);
+			return;
+		}
 		const panel = vscode.window.createWebviewPanel('flutter-internationalize', 'Flutter Internationalize', vscode.ViewColumn.One,
 			{
 				enableScripts: true,
