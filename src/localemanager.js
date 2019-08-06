@@ -3,6 +3,7 @@ const langPack = require('./languagepack')
 const XLSX = require('xlsx')
 const fs = require('fs')
 const path = require('path')
+const dartGen = require('./dartgenerator')
 
 const { workspace } = vscode;
 
@@ -39,7 +40,7 @@ class LocaleManager {
         //TODO: check multiple folders
         if (folders.length == 1) {
             this.rootPath = folders[0].uri.path;
-            const a = await workspace.findFiles('**/locales/desc.json', null, 5)
+            const a = await workspace.findFiles('**/locales/desc.json', '**/flutter_assets/locales/*.json', 5)
             if (a.length === 0) {
                 if (!fs.existsSync(path.join(this.rootPath, 'locales')))
                     fs.mkdirSync(path.join(this.rootPath, 'locales'))
@@ -62,7 +63,7 @@ class LocaleManager {
     async readLocaleFile(descFileUri) {
         this.description = await langPack.LanguagePack.load(descFileUri);
         this.load(this.description, true)
-        const allLocFiles = (await workspace.findFiles('**/locales/*.json', null, 50)).
+        const allLocFiles = (await workspace.findFiles('**/locales/*.json', '**/flutter_assets/locales/*.json', 50)).
             filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_'))
         this.totalCount = allLocFiles.length;
         allLocFiles.forEach(v => {
@@ -98,8 +99,12 @@ class LocaleManager {
         }
     }
 
-    async save(data) {
+    async save(data, clear = false) {
         this.data = data;
+        if (clear) {
+            const files = fs.readdirSync(path.join(this.rootPath, 'locales'))
+            files.filter(v => v.endsWith('.json')).forEach(v => fs.unlinkSync(path.join(this.rootPath, 'locales', v)));
+        }
         for (let i = 0; i < this.langs.length; i++) {
             let toSave = {};
             for (let k in data) {
@@ -132,6 +137,7 @@ class LocaleManager {
 
     async importExcel(dir, excelPath) {
         const wb = XLSX.readFile(excelPath);
+        const re = /[a-zA-Z]\w+$/
         let data = {}
         let langs = []
         let langInited = false;
@@ -151,6 +157,11 @@ class LocaleManager {
             }
             langInited = true;
             for (r = 2; r <= maxRow; r++) {
+                const _id = s[`A${r}`]['v'];
+                if (!re.test(_id)) {
+                    vscode.window.showErrorMessage(`ID "${_id}" not allowed, only alpha, digit and _ are allowed`)
+                    return;
+                }
                 let obj = { '_id': s[`A${r}`]['v'], '_key': r }
                 for (let c = 66; c <= maxCol; c++) {
                     obj[idMap[c]] = s[`${String.fromCharCode(c)}${r}`]['v']
@@ -162,8 +173,12 @@ class LocaleManager {
         this.data = data;
         this.langs = langs
         this.cols = ['_id', ...langs]
-        this.save(data);
+        this.save(data, true);
         this.loadedCallback();
+    }
+
+    async generate() {
+        dartGen.generate(this.rootPath, this.data);
     }
 }
 

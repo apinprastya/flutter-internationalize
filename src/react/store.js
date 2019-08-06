@@ -37,7 +37,7 @@ const mainReducer = (state, action) => {
             return { ...state, data, commands: [...state.commands, { 'group': state.currentGroup, type: 'updateRow', 'data': action.payload }] }
         }
         case 'insertNewRow': {
-            const values = { ...action.payload, '_key': '' + (lastKey++) }
+            const values = { ...action.payload, '_key': '' + (state.lastKey++) }
             const data = {
                 ...state.data, [state.currentGroup]: [...state.data[state.currentGroup], values]
             }
@@ -100,6 +100,10 @@ const mainReducer = (state, action) => {
         }
         case 'import': {
             vscode.postMessage({ type: 'import' })
+            return state;
+        }
+        case 'generate': {
+            vscode.postMessage({ type: 'generate' })
             return state;
         }
         default: {

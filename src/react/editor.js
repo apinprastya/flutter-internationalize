@@ -33,14 +33,26 @@ const Editor = (props) => {
         dispatch({ type: 'removeRow', payload: v })
     }
 
+    const validText = (rule, value, callback) => {
+        const re = /[a-zA-Z]\w+$/
+        re.test(value) ? callback() : callback([new Error('Only alpha, digit and _ allowed')])
+    }
+
+    const keyNotExist = (rule, value, callback) => {
+        const arr = globalState.data[globalState.currentGroup];
+        const key = globalState.currentKey;
+        const found = arr.find(v => v._key !== key && v._id === value)
+        !found ? callback() : callback([new Error('Key already exist')])
+    }
+
     return <Form style={{ marginLeft: 10 }} onSubmit={onSave}>
         {globalState.selectedData && <React.Fragment>
             {cols.map(v => {
-                return <div style={{ marginBottom: 20 }} key={v}>
+                return <div style={{ marginBottom: 10 }} key={v}>
                     <div>{v}</div>
                     <Form.Item>
                         {getFieldDecorator(v, {
-                            rules: v === '_id' ? [{ required: true, message: 'id required' }] : null,
+                            rules: v === '_id' ? [{ required: true, message: 'id required' }, { validator: validText }, { validator: keyNotExist }] : null,
                             //initialValue: globalState.selectedData[v],
                         })(
                             <Input.TextArea style={{ width: '100%' }} autosize />,

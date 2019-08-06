@@ -1,19 +1,10 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-//require('regenerator-runtime/runtime')
 const vscode = require('vscode');
 const path = require('path')
 const LocaleManager = require('./localemanager')
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-
 var _panel;
 var _localeManager;
 
-/**
- * @param {vscode.ExtensionContext} context
- */
 function activate(context) {
 	let disposable = vscode.commands.registerCommand('extension.open', function () {
 		const panel = vscode.window.createWebviewPanel('flutter-internationalize', 'Flutter Internationalize', vscode.ViewColumn.One,
@@ -53,6 +44,9 @@ function activate(context) {
 							_localeManager.saveExport(v.path);
 						})
 					break;
+				}
+				case 'generate': {
+					_localeManager.generate();
 				}
 			}
 		});

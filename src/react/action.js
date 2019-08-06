@@ -25,6 +25,10 @@ const Action = (props) => {
         dispatch({ type: 'export' })
     }
 
+    const onGenerate = () => {
+        dispatch({ type: 'generate' });
+    }
+
     return <Row>
         <Col span={24}>
             <Button.Group>
@@ -37,9 +41,10 @@ const Action = (props) => {
             </Button.Group>
             <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="plus" type="default">Add key</Button>
             <Button.Group style={{ marginLeft: 10 }}>
-                <Button onClick={onImport} icon="excel" type="default">Import excel</Button>
-                <Button onClick={onExport} icon="plus" type="default">Export excel</Button>
+                <Button onClick={onImport} icon="upload" type="default">Import excel</Button>
+                <Button onClick={onExport} icon="download" type="default">Export excel</Button>
             </Button.Group>
+            <Button style={{ marginLeft: 10 }} onClick={onGenerate} icon="exclamation" type="default">Generate dart code</Button>
         </Col>
     </Row>
 }

@@ -12,7 +12,7 @@ const KeyList = () => {
 
     return <List
         rowKey="id"
-        style={{ height: 600, backgroundColor: '#303030' }}
+        style={{ height: 600, backgroundColor: '#303030', overflowY: 'auto' }}
         dataSource={globalState.data[globalState.currentGroup]}
         header={<div style={{ paddingLeft: 10, fontWeight: 'bold' }}>Keys</div>}
         renderItem={item => {
