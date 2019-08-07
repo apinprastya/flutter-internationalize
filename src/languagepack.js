@@ -16,7 +16,11 @@ class LanguagePack {
 
     async reload() {
         const text = await workspace.openTextDocument(this.uri);
-        this.json = JSON.parse(text.getText());
+        try {
+            this.json = JSON.parse(text.getText());
+        } catch (e) {
+            this.json = {}
+        }
         this.lang = path.basename(this.uri.path, '.json')
     }
 }

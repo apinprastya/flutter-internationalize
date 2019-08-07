@@ -21,6 +21,9 @@ function activate(context) {
 				]
 			});
 		_panel = panel;
+		_panel.onDidDispose(() => {
+			_panel = undefined;
+		});
 		updatePanel(context);
 		_localeManager = new LocaleManager.LocaleManager(() => {
 			_panel.webview.postMessage({ type: 'initialLoaded', data: _localeManager.getData() })
@@ -94,7 +97,9 @@ function getNonce() {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() { }
+function deactivate() {
+	console.log('ASD')
+}
 
 module.exports = {
 	activate,
