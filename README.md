@@ -82,16 +82,8 @@ lBase.load('locales/EN_US.json').then((v) {
 ```
 
 **This extension is still on development, some changes may happen**
+
 **Any help is appreciated**
 
-
------------------------------------------------------------------------------------------------------------
-
-
-## Todo
-
-- [x] Auto generate required files
-- [x] Auto generate dart code to read files
-- [ ] Mapping key from string to int for save memory
 
 **Enjoy!**
