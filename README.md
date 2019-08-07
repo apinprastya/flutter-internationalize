@@ -82,6 +82,7 @@ lBase.load('locales/EN_US.json').then((v) {
 ```
 
 **This extension is still on development, some changes may happen**
+**Any help is appreciated**
 
 
 -----------------------------------------------------------------------------------------------------------
