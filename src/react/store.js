@@ -106,6 +106,10 @@ const mainReducer = (state, action) => {
             vscode.postMessage({ type: 'generate' })
             return state;
         }
+        case 'reload': {
+            vscode.postMessage({ type: 'reload' })
+            return { ...state, loaded: false, selectedData: undefined, currentKey: undefined };
+        }
         default: {
             return state;
         }

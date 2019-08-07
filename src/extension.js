@@ -55,6 +55,14 @@ function activate(context) {
 				}
 				case 'generate': {
 					_localeManager.generate();
+					break;
+				}
+				case 'reload': {
+					_localeManager = new LocaleManager.LocaleManager(() => {
+						_panel.webview.postMessage({ type: 'initialLoaded', data: _localeManager.getData() })
+					});
+					_localeManager.init();
+					break;
 				}
 			}
 		});

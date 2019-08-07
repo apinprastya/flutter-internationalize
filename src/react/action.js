@@ -29,6 +29,10 @@ const Action = (props) => {
         dispatch({ type: 'generate' });
     }
 
+    const onReload = () => {
+        dispatch({ type: 'reload' });
+    }
+
     return <Row>
         <Col span={24}>
             <Button.Group>
@@ -45,6 +49,7 @@ const Action = (props) => {
                 <Button onClick={onExport} icon="download" type="default">Export excel</Button>
             </Button.Group>
             <Button style={{ marginLeft: 10 }} onClick={onGenerate} icon="exclamation" type="default">Generate dart code</Button>
+            <Button style={{ marginLeft: 10 }} onClick={onReload} icon="reload" type="default">Reload</Button>
         </Col>
     </Row>
 }
