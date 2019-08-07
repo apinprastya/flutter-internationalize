@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.5
+
+- add refresh button to refresh reading all json files
+- fix can not reopen the window
+- fix crash when json is not a valid json string
+
 ## 0.0.4
 
 - auto generated initial json files
