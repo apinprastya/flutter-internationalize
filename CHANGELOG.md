@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.6
+
+- fix error when any empty cell when import from excel
+- update readme to be use on LocalizationsDelegate
+- update UI: adding search on keys
+- show error message when the json files is not valid json string
+
 ## 0.0.5
 
 - add refresh button to refresh reading all json files

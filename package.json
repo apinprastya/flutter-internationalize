@@ -2,7 +2,7 @@
 	"name": "flutter-internationalize",
 	"displayName": "flutter-internationalize",
 	"description": "Flutter internationalizing tools",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"publisher": "apin",
 	"author": "Apin Prastya <apin.klas@gmail.com> (https://lekapin.com)",
 	"icon": "resources/icon.png",
@@ -35,7 +35,7 @@
 		"vscode:prepublish": "webpack --env.production",
 		"test": "node ./test/runTest.js",
 		"start": "webpack --watch --config ./webpack.config.js --mode development",
-		"build": "webpack --config ./webpack.config.js --mode development"
+		"build": "webpack --config ./webpack.config.js --env.production"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.5.5",

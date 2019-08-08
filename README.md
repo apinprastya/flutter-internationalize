@@ -8,8 +8,8 @@ Better editor for localization.
 
 Grouping text for easier managing text
 
-![Screenshot](https://user-images.githubusercontent.com/1171479/62542569-38d32180-b886-11e9-81ee-4743571c867c.png)
 
+![Screenshot](https://user-images.githubusercontent.com/1171479/62695170-fcc3cc00-b9ff-11e9-8491-ee7ac3a84650.png)
 
 
 ## Requirements
@@ -71,7 +71,7 @@ To load it on the app, you will need to add it on pubspec.yaml first :
 And you can load to your app by import the dart code generated above :
 
 ```dart
-final LocaleBase lBase;
+final LocaleBase lBase = LocaleBase;
 lBase.load('locales/EN_US.json').then((v) {
   //to read on group main and key sample:
   print(lBase.main.sample);
@@ -79,6 +79,49 @@ lBase.load('locales/EN_US.json').then((v) {
   print(lBase.main.save);
 });
 
+```
+
+Use it on **LocalizationsDelegate**
+
+```dart
+class LocDelegate extends LocalizationsDelegate<LocaleBase> {
+  const LocDelegate();
+  final idMap = const {'en': 'locales/EN.json', 'id': 'locales/ID.json'};
+
+  @override
+  bool isSupported(Locale locale) => ['en', 'id'].contains(locale.languageCode);
+
+  @override
+  Future<LocaleBase> load(Locale locale) async {
+    var lang = 'en';
+    if (isSupported(locale)) lang = locale.languageCode;
+    final loc = LocaleBase();
+    await loc.load(idMap[lang]);
+    return loc;
+  }
+
+  @override
+  bool shouldReload(LocDelegate old) => false;
+}
+```
+
+Then add delegate to MaterialApp:
+
+```dart
+  localizationsDelegates: [
+    const LocDelegate(),
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ],
+```
+
+And we can get loc text on any widget:
+```dart
+Widget build(BuildContext context) {
+  final loc = Localizations.of<LocaleBase>(context, LocaleBase);
+  print(loc.main.save);
+  print(loc.main.cancel);
+}
 ```
 
 **This extension is still on development, some changes may happen**
