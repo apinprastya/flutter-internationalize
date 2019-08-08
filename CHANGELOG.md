@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.7
+
+- hot fix listener add new every new render
+
 ## 0.0.6
 
 - fix error when any empty cell when import from excel

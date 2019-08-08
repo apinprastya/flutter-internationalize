@@ -61,7 +61,7 @@ const Editor = (props) => {
                 </div>
             })}
             <Button.Group>
-                <Button type="default" htmlType="submit" icon="save">Save</Button>
+                <Button type="default" htmlType="submit" icon="save" loading={globalState.saving}>Save</Button>
                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(globalState.selectedData._key)}>
                     <Button type="danger" htmlType="submit" icon="delete">Remove</Button>
                 </Popconfirm>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+window.inited = false
 const GlobalStore = React.createContext();
 
 const intialState = {
@@ -136,7 +137,10 @@ const StoreProvider = ({ children }) => {
             }
         }
     }
-    window.addEventListener('message', onMessage);
+    if (!window.inited) {
+        window.addEventListener('message', onMessage);
+        window.inited = true
+    }
 
     return <GlobalStore.Provider value={reducer}>
         {children}
