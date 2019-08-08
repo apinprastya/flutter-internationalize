@@ -100,7 +100,7 @@ const mainReducer = (state, action) => {
         }
         case 'import': {
             vscode.postMessage({ type: 'import' })
-            return state;
+            return { ...state, loaded: false };
         }
         case 'generate': {
             vscode.postMessage({ type: 'generate' })

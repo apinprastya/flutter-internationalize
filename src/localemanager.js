@@ -1,5 +1,4 @@
 const vscode = require('vscode');
-const langPack = require('./languagepack')
 const XLSX = require('xlsx')
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +9,6 @@ const { workspace } = vscode;
 class LocaleManager {
 
     constructor(loadedCallback) {
-        this.packs = []
         this.groups = []
         this.langs = []
         this.description = {}
@@ -60,21 +58,29 @@ class LocaleManager {
         }
     }
 
+    async loadText(uri) {
+        const text = await workspace.openTextDocument(uri);
+        try {
+            const json = JSON.parse(text.getText());
+            return { json: json, lang: path.basename(uri.path, '.json') }
+        } catch (e) {
+            vscode.window.showErrorMessage(`Failed to load ${path.basename(uri.path)}. It will uses empty object`)
+            return { json: {}, lang: path.basename(uri.path, '.json') }
+        }
+    }
+
     async readLocaleFile(descFileUri) {
-        this.description = await langPack.LanguagePack.load(descFileUri);
+        this.description = await this.loadText(descFileUri);
         this.load(this.description, true)
         const allLocFiles = (await workspace.findFiles('**/locales/*.json', '**/flutter_assets/locales/*.json', 50)).
             filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_'))
         this.totalCount = allLocFiles.length;
         allLocFiles.forEach(v => {
-            langPack.LanguagePack.load(v).then(pack => {
-                this.load(pack)
-            });
+            this.loadText(v).then(v1 => this.load(v1))
         });
     }
 
     load(pack, init = false) {
-        this.packs.push(pack)
         this.cols.push(pack.lang)
         this.langs.push(pack.lang)
         for (let key in pack.json) {
@@ -157,6 +163,8 @@ class LocaleManager {
             }
             langInited = true;
             for (r = 2; r <= maxRow; r++) {
+                const o = s[`A${r}`]
+                if (!o) continue;
                 const _id = s[`A${r}`]['v'];
                 if (!re.test(_id)) {
                     vscode.window.showErrorMessage(`ID "${_id}" not allowed, only alpha, digit and _ are allowed`)
@@ -164,7 +172,10 @@ class LocaleManager {
                 }
                 let obj = { '_id': s[`A${r}`]['v'], '_key': r }
                 for (let c = 66; c <= maxCol; c++) {
-                    obj[idMap[c]] = s[`${String.fromCharCode(c)}${r}`]['v']
+                    const o1 = s[`${String.fromCharCode(c)}${r}`]
+                    if (o1)
+                        obj[idMap[c]] = s[`${String.fromCharCode(c)}${r}`]['v']
+                    else obj[idMap[c]] = ''
                 }
                 arr.push(obj)
             }
