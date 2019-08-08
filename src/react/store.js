@@ -16,6 +16,7 @@ const intialState = {
     currentKey: undefined,
     selectedData: undefined,
     lastKey: 10000,
+    search: ''
 };
 
 const vscode = acquireVsCodeApi();
@@ -109,6 +110,12 @@ const mainReducer = (state, action) => {
         case 'reload': {
             vscode.postMessage({ type: 'reload' })
             return { ...state, loaded: false, selectedData: undefined, currentKey: undefined };
+        }
+        case 'search': {
+            return { ...state, search: action.payload }
+        }
+        case 'searchReset': {
+            return { ...state, search: '' }
         }
         default: {
             return state;
