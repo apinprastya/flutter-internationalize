@@ -41,7 +41,7 @@ function activate(context) {
 					vscode.window.showOpenDialog({ canSelectFiles: true, canSelectFolders: false, filters: { 'Spreadsheet': ['xls', 'xlsx'] }, canSelectMany: false })
 						.then(v => {
 							if (v && v.length === 1) {
-								_localeManager.importExcel(path.join(context.extensionPath, 'locales'), v[0].path)
+								_localeManager.importExcel(path.join(context.extensionPath, 'locales'), v[0].fsPath)
 							}
 						})
 					break;
@@ -49,7 +49,7 @@ function activate(context) {
 				case 'export': {
 					vscode.window.showSaveDialog({ filters: { 'Spreadsheet': ['xls', 'xlsx'] }, saveLabel: "Export" })
 						.then(v => {
-							_localeManager.saveExport(v.path);
+							_localeManager.saveExport(v.fsPath);
 						})
 					break;
 				}

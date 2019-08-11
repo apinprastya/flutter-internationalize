@@ -22,6 +22,7 @@ class LocaleManager {
         this.readLocaleFile.bind(this)
         this.getData.bind(this)
         this.rootPath = '';
+        this.rootFsPath = '';
     }
 
     getData() {
@@ -38,18 +39,19 @@ class LocaleManager {
         //TODO: check multiple folders
         if (folders.length == 1) {
             this.rootPath = folders[0].uri.path;
+            this.rootFsPath = folders[0].uri.fsPath;
             const a = await workspace.findFiles('**/locales/desc.json', '**/flutter_assets/locales/*.json', 5)
             if (a.length === 0) {
-                if (!fs.existsSync(path.join(this.rootPath, 'locales')))
-                    fs.mkdirSync(path.join(this.rootPath, 'locales'))
+                if (!fs.existsSync(path.join(this.rootFsPath, 'locales')))
+                    fs.mkdirSync(path.join(this.rootFsPath, 'locales'))
                 const desc = {
                     main: { sample: 'This is sample description', save: 'Use to save document' }
                 }
-                fs.writeFileSync(path.join(this.rootPath, 'locales', 'desc.json'), JSON.stringify(desc, null, 2))
+                fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'desc.json'), JSON.stringify(desc, null, 2))
                 const EN_US = {
                     main: { sample: 'Example', save: 'Save' }
                 }
-                fs.writeFileSync(path.join(this.rootPath, 'locales', 'EN_US.json'), JSON.stringify(EN_US, null, 2))
+                fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'EN_US.json'), JSON.stringify(EN_US, null, 2))
                 vscode.window.showInformationMessage("We have created desc.json and EN.json files for initial text")
                 this.init()
             } else {
@@ -108,8 +110,8 @@ class LocaleManager {
     async save(data, clear = false) {
         this.data = data;
         if (clear) {
-            const files = fs.readdirSync(path.join(this.rootPath, 'locales'))
-            files.filter(v => v.endsWith('.json')).forEach(v => fs.unlinkSync(path.join(this.rootPath, 'locales', v)));
+            const files = fs.readdirSync(path.join(this.rootFsPath, 'locales'))
+            files.filter(v => v.endsWith('.json')).forEach(v => fs.unlinkSync(path.join(this.rootFsPath, 'locales', v)));
         }
         for (let i = 0; i < this.langs.length; i++) {
             let toSave = {};
@@ -119,7 +121,7 @@ class LocaleManager {
                 toSave[k] = g;
             }
             const str = JSON.stringify(toSave, null, 2);
-            fs.writeFileSync(path.join(this.rootPath, 'locales', `${this.langs[i]}.json`), str)
+            fs.writeFileSync(path.join(this.rootFsPath, 'locales', `${this.langs[i]}.json`), str)
         }
     }
 
@@ -189,7 +191,7 @@ class LocaleManager {
     }
 
     async generate() {
-        dartGen.generate(this.rootPath, this.data);
+        dartGen.generate(this.rootFsPath, this.data);
     }
 }
 
