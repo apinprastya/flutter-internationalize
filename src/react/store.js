@@ -17,7 +17,8 @@ const intialState = {
     currentKey: undefined,
     selectedData: undefined,
     lastKey: 10000,
-    search: ''
+    search: '',
+    groupEdit: '',
 };
 
 const vscode = acquireVsCodeApi();
@@ -88,7 +89,22 @@ const mainReducer = (state, action) => {
             return { ...state, groups, currentGroup: groups[0], data, commands: [...state.commands, { type: 'removeGroup', data: state.currentGroup }] }
         }
         case 'showAddGroup': {
-            return { ...state, showAddGroup: action.payload }
+            return { ...state, showAddGroup: action.payload, groupEdit: '' }
+        }
+        case 'showEditGroup': {
+            return { ...state, showAddGroup: true, groupEdit: action.payload }
+        }
+        case 'editGroup': {
+            if (action.payload === state.groupEdit) {
+                return state;
+            }
+            const { [state.groupEdit]: value, ...rest } = state.data
+            const data = { ...rest, [action.payload]: state.data[state.groupEdit] };
+            vscode.postMessage({ type: 'save', payload: data })
+            return {
+                ...state, data: data, groupEdit: '', showAddGroup: false, groups: state.groups.map(v => v === state.groupEdit ? action.payload : v),
+                currentGroup: action.payload
+            }
         }
         case 'changeGroupAddName': {
             return { ...state, groupNameValue: action.payload }

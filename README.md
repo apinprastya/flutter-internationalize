@@ -9,7 +9,7 @@ Better editor for localization.
 Grouping text for easier managing text
 
 
-![Screenshot](https://user-images.githubusercontent.com/1171479/62695170-fcc3cc00-b9ff-11e9-8491-ee7ac3a84650.png)
+![Screenshot](https://user-images.githubusercontent.com/1171479/62834791-5dab0880-bc7b-11e9-8672-8d0fa250b688.png)
 
 
 ## Requirements
@@ -17,37 +17,45 @@ Grouping text for easier managing text
 Open command palette (Ctrl + Shift + P) and run "Flutter Internationalize: Open"
 
 This extension will search files json in **locales** folder in your project root folder. And search for **desc.json** as the entry point.
-If file not exist, the extension will create it.
+If file not exist, the extension will create it (and also will create 1 json file called EN_US.json).
 
 If you want to add new language just add new [lang].json
 
 ### Import from excel file
 
-For excel structure, please do export first to see the structure. **Import will remove all json files inside the "locales" folder**
+For excel structure, please do export first to see the structure. **Important: Import will remove all json files inside the "locales" folder**
 
 ### Generate dart file and load to application
 
-For easier access from dart side, it can generate the code by click on "Generate dart code" button. The it will create a file called **locale_base** in **lib/generated** folder.
+For easier access from dart side, it can generate the code by click on "Generate dart code" button. The it will create a file called **locale_base.dart** in **lib/generated** folder.
 
-Here example of the files :
+Here example of the generated file :
 
 ```dart
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
-
 class LocaleBase {
-  Map<String, dynamic> _data;    
+  Map<String, dynamic> _data;
+  String _path;
   Future<void> load(String path) async {
+    _path = path;
     final strJson = await rootBundle.loadString(path);
     _data = jsonDecode(strJson);
     initAll();
   }
+  
+  Map<String, String> getData(String group) {
+    return Map<String, String>.from(_data[group]);
+  }
+
+  String getPath() => _path;
 
   Localemain _main;
   Localemain get main => _main;
+  Localesetting _setting;
+  Localesetting get setting => _setting;
 
   void initAll() {
     _main = Localemain(Map<String, String>.from(_data['main']));
+    _setting = Localesetting(Map<String, String>.from(_data['setting']));
   }
 }
 
@@ -57,6 +65,15 @@ class Localemain {
 
   String get sample => _data["sample"];
   String get save => _data["save"];
+  String get cancel => _data["cancel"];
+}
+
+class Localesetting {
+  final Map<String, String> _data;
+  Localesetting(this._data);
+
+  String get global => _data["global"];
+  String get labelUsername => _data["labelUsername"];
 }
 
 ```
@@ -66,6 +83,7 @@ To load it on the app, you will need to add it on pubspec.yaml first :
 ```yaml
   assets:
     - locales/EN_US.json
+    - locales/IN_ID.json
 ```
 
 And you can load to your app by import the dart code generated above :
@@ -86,7 +104,7 @@ Use it on **LocalizationsDelegate**
 ```dart
 class LocDelegate extends LocalizationsDelegate<LocaleBase> {
   const LocDelegate();
-  final idMap = const {'en': 'locales/EN.json', 'id': 'locales/ID.json'};
+  final idMap = const {'en': 'locales/EN_US.json', 'id': 'locales/IN_ID.json'};
 
   @override
   bool isSupported(Locale locale) => ['en', 'id'].contains(locale.languageCode);
@@ -124,9 +142,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-**This extension is still on development, some changes may happen**
-
-**Any help is appreciated**
+**Any issue, bug, request feature, please directly input an issue to github**
 
 
-**Enjoy!**
+**Terima kasih**

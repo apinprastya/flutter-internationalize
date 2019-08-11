@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.8
+
+- able to edit group from UI
+- small changes on UI
+
 ## 0.0.7
 
 - hot fix listener add new every new render

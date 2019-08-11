@@ -66,6 +66,7 @@ const Editor = (props) => {
                     <Button type="danger" htmlType="submit" icon="delete">Remove</Button>
                 </Popconfirm>
             </Button.Group>
+            <Button style={{ marginLeft: 10 }} icon="plus" onClick={() => dispatch({ type: 'addRow' })}>Add new</Button>
         </React.Fragment>}
     </Form>
 }
