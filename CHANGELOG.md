@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.9
+
+- fix extension not working windows
+
 ## 0.0.8
 
 - able to edit group from UI
