@@ -4,6 +4,7 @@ import GroupList from './grouplist';
 import { Row, Col } from 'antd';
 import KeyList from './keylist';
 import Editor from './editor';
+import LangDrawer from './langdrawer';
 
 const MainUI = (props) => {
     const [globalState, dispatch] = React.useContext(GlobalStore)
@@ -20,6 +21,7 @@ const MainUI = (props) => {
             <Col span={14}>
                 <Editor />
             </Col>
+            <LangDrawer />
         </Row>
 }
 

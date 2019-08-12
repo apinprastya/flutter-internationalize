@@ -32,6 +32,9 @@ const Action = (props) => {
             case 'generate':
                 dispatch({ type: 'generate' });
                 break;
+            case 'manage':
+                dispatch({ type: 'showLangDrawer', payload: true })
+                break;
         }
     }
 

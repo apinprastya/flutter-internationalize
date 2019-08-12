@@ -19,6 +19,7 @@ const intialState = {
     lastKey: 10000,
     search: '',
     groupEdit: '',
+    langDrawerVisible: false,
 };
 
 const vscode = acquireVsCodeApi();
@@ -133,6 +134,9 @@ const mainReducer = (state, action) => {
         }
         case 'searchReset': {
             return { ...state, search: '' }
+        }
+        case 'showLangDrawer': {
+            return { ...state, langDrawerVisible: action.payload }
         }
         default: {
             return state;
