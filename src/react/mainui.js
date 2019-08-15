@@ -5,6 +5,7 @@ import { Row, Col } from 'antd';
 import KeyList from './keylist';
 import Editor from './editor';
 import LangDrawer from './langdrawer';
+import AddLang from './addlang'
 
 const MainUI = (props) => {
     const [globalState, dispatch] = React.useContext(GlobalStore)
@@ -22,6 +23,7 @@ const MainUI = (props) => {
                 <Editor />
             </Col>
             <LangDrawer />
+            <AddLang />
         </Row>
 }
 

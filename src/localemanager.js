@@ -193,6 +193,15 @@ class LocaleManager {
     async generate() {
         dartGen.generate(this.rootFsPath, this.data);
     }
+
+    async addLang(langName) {
+        this.langs.push(langName)
+        fs.writeFileSync(path.join(this.rootFsPath, 'locales', `${langName}.json`), JSON.stringify({}))
+    }
+
+    async removeLang(langName) {
+        fs.unlinkSync(path.join(this.rootFsPath, 'locales', `${langName}.json`))
+    }
 }
 
 module.exports.LocaleManager = LocaleManager;

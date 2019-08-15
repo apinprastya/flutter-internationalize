@@ -34,8 +34,11 @@ const Editor = (props) => {
     }
 
     const validText = (rule, value, callback) => {
-        const re = /[a-zA-Z]\w+$/
-        re.test(value) ? callback() : callback([new Error('Only alpha, digit and _ allowed')])
+        const re = /^[a-zA-Z].*$/
+        const re2 = /\w+$/;
+        if (!re.test(value)) callback([new Error('must start with alpha')])
+        else if (!re2.test(value)) callback([new Error('only alpha, number and _ allowed')])
+        callback()
     }
 
     const keyNotExist = (rule, value, callback) => {

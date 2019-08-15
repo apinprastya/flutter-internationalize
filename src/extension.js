@@ -64,6 +64,12 @@ function activate(context) {
 					_localeManager.init();
 					break;
 				}
+				case 'addLang': {
+					_localeManager.addLang(msg.payload)
+				}
+				case 'removeLang': {
+					_localeManager.removeLang(msg.payload)
+				}
 			}
 		});
 	});

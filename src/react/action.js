@@ -42,7 +42,7 @@ const Action = (props) => {
         <Menu onClick={handleMenuClick}>
             <Menu.Item key="manage">
                 <Icon type="unordered-list" />
-                Manage language
+                Setting
           </Menu.Item>
             <Menu.Divider />
             <Menu.Item key="import">
@@ -52,11 +52,6 @@ const Action = (props) => {
             <Menu.Item key="export">
                 <Icon type="download" />
                 Export excel
-          </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item key="generate">
-                <Icon type="exclamation" />
-                Generate dart code
           </Menu.Item>
         </Menu>
     );
@@ -71,6 +66,7 @@ const Action = (props) => {
             }
         </Button.Group>
         <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="plus" type="default">Add key</Button>
+        <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="exclamation" type="default">Generate Code</Button>
         <Button.Group style={{ marginLeft: 10 }}>
             <Tooltip title="refresh" >
                 <Button onClick={onReload} icon="reload" type="default"></Button>

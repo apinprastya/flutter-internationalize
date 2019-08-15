@@ -20,6 +20,10 @@ const intialState = {
     search: '',
     groupEdit: '',
     langDrawerVisible: false,
+    langEdit: '',
+    currentLang: '',
+    showAddLang: false,
+    langNameValue: ''
 };
 
 const vscode = acquireVsCodeApi();
@@ -137,6 +141,20 @@ const mainReducer = (state, action) => {
         }
         case 'showLangDrawer': {
             return { ...state, langDrawerVisible: action.payload }
+        }
+        case 'setCurrentLang': {
+            return { ...state, currentLang: action.payload }
+        }
+        case 'showAddLang': {
+            return { ...state, showAddLang: action.payload }
+        }
+        case 'addLang': {
+            vscode.postMessage({ type: 'addLang', payload: action.payload })
+            return { ...state, langs: [...state.langs, action.payload], showAddLang: false, currentKey: undefined, selectedData: undefined }
+        }
+        case 'removeLang': {
+            vscode.postMessage({ type: 'removeLang', payload: state.currentLang })
+            return { ...state, langs: state.langs.filter(v => v !== state.currentLang), currentKey: undefined, selectedData: undefined, currentLang: '' }
         }
         default: {
             return state;
