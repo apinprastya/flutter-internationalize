@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.1
+
+- hot fix generate not working
+
 ## 0.1.0
 
 - new feature add lang from UI

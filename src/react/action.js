@@ -21,6 +21,10 @@ const Action = (props) => {
         dispatch({ type: 'reload' });
     }
 
+    const onGenerate = () => {
+        dispatch({ type: 'generate' });
+    }
+
     const handleMenuClick = (e) => {
         switch (e.key) {
             case 'import':
@@ -66,7 +70,7 @@ const Action = (props) => {
             }
         </Button.Group>
         <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="plus" type="default">Add key</Button>
-        <Button style={{ marginLeft: 10 }} onClick={onAddRow} icon="exclamation" type="default">Generate Code</Button>
+        <Button style={{ marginLeft: 10 }} onClick={onGenerate} icon="exclamation" type="default">Generate Code</Button>
         <Button.Group style={{ marginLeft: 10 }}>
             <Tooltip title="refresh" >
                 <Button onClick={onReload} icon="reload" type="default"></Button>
