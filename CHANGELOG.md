@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.0
+
+- new feature add lang from UI
+- fix groupname not reset after add new one
+
 ## 0.0.9
 
 - fix extension not working windows
