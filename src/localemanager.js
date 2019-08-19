@@ -40,7 +40,7 @@ class LocaleManager {
         if (folders.length == 1) {
             this.rootPath = folders[0].uri.path;
             this.rootFsPath = folders[0].uri.fsPath;
-            const a = await workspace.findFiles('**/locales/desc.json', '**/flutter_assets/locales/*.json', 5)
+            const a = await workspace.findFiles('locales/desc.json', null, 5)
             if (a.length === 0) {
                 if (!fs.existsSync(path.join(this.rootFsPath, 'locales')))
                     fs.mkdirSync(path.join(this.rootFsPath, 'locales'))
@@ -74,7 +74,7 @@ class LocaleManager {
     async readLocaleFile(descFileUri) {
         this.description = await this.loadText(descFileUri);
         this.load(this.description, true)
-        const allLocFiles = (await workspace.findFiles('**/locales/*.json', '**/flutter_assets/locales/*.json', 50)).
+        const allLocFiles = (await workspace.findFiles('locales/*.json', null, 50)).
             filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_'))
         this.totalCount = allLocFiles.length;
         allLocFiles.forEach(v => {

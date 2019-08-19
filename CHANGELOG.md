@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.2
+
+- fix extension read all json from any locales folder
+
 ## 0.1.1
 
 - hot fix generate not working
