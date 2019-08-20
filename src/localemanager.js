@@ -36,27 +36,43 @@ class LocaleManager {
 
     async init() {
         const folders = workspace.workspaceFolders;
-        //TODO: check multiple folders
+        if (folders.length > 1) {
+            setTimeout(() => {
+                vscode.window.showQuickPick(folders.map(v => v.uri.fsPath)).then(v => {
+                    if (v === undefined) {
+                        vscode.window.showErrorMessage("Please select folder! Close and open again this Flutter-Internationalize extension");
+                    } else {
+                        const f = folders.find(v1 => v1.uri.fsPath == v);
+                        this.initFolder(f);
+                    }
+                });
+            }, 1000);
+        }
         if (folders.length == 1) {
-            this.rootPath = folders[0].uri.path;
-            this.rootFsPath = folders[0].uri.fsPath;
-            const a = await workspace.findFiles('locales/desc.json', null, 5)
-            if (a.length === 0) {
-                if (!fs.existsSync(path.join(this.rootFsPath, 'locales')))
-                    fs.mkdirSync(path.join(this.rootFsPath, 'locales'))
-                const desc = {
-                    main: { sample: 'This is sample description', save: 'Use to save document' }
-                }
-                fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'desc.json'), JSON.stringify(desc, null, 2))
-                const EN_US = {
-                    main: { sample: 'Example', save: 'Save' }
-                }
-                fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'EN_US.json'), JSON.stringify(EN_US, null, 2))
-                vscode.window.showInformationMessage("We have created desc.json and EN.json files for initial text")
-                this.init()
-            } else {
-                this.readLocaleFile(a[0]);
+            this.initFolder(folders[0])
+        }
+    }
+
+    async initFolder(folder) {
+        this.rootPath = folder.uri.path;
+        this.rootFsPath = folder.uri.fsPath;
+        const arr = await workspace.findFiles('locales/desc.json', null, 5)
+        const a = arr.filter(v => v.path.toUpperCase().includes(this.rootPath.toUpperCase()))
+        if (a.length === 0) {
+            if (!fs.existsSync(path.join(this.rootFsPath, 'locales')))
+                fs.mkdirSync(path.join(this.rootFsPath, 'locales'))
+            const desc = {
+                main: { sample: 'This is sample description', save: 'Use to save document' }
             }
+            fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'desc.json'), JSON.stringify(desc, null, 2))
+            const EN_US = {
+                main: { sample: 'Example', save: 'Save' }
+            }
+            fs.writeFileSync(path.join(this.rootFsPath, 'locales', 'EN_US.json'), JSON.stringify(EN_US, null, 2))
+            vscode.window.showInformationMessage("We have created desc.json and EN.json files for initial text")
+            this.initFolder(folder)
+        } else {
+            this.readLocaleFile(a[0]);
         }
     }
 
@@ -72,10 +88,11 @@ class LocaleManager {
     }
 
     async readLocaleFile(descFileUri) {
-        this.description = await this.loadText(descFileUri);
+        this.description = await this.loadText(descFileUri)
         this.load(this.description, true)
         const allLocFiles = (await workspace.findFiles('locales/*.json', null, 50)).
-            filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_'))
+            filter(v => !v.path.endsWith('desc.json') && !path.basename(v.path).startsWith('text_')).
+            filter(v => v.path.toUpperCase().includes(this.rootPath.toUpperCase()))
         this.totalCount = allLocFiles.length;
         allLocFiles.forEach(v => {
             this.loadText(v).then(v1 => this.load(v1))
@@ -95,7 +112,9 @@ class LocaleManager {
                 if (init) {
                     this.data[key].push({ _key: `${i}`, _id: k, desc: pack.json[key][k] })
                 } else {
+                    if (this.data[key] === undefined) continue;
                     let d = this.data[key].find(v => v._id === k);
+                    if (d === undefined) continue;
                     d[pack.lang] = pack.json[key][k];
                 }
                 i++

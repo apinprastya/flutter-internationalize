@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.3
+
+- implement multi folder on workspace
+
 ## 0.1.2
 
 - fix extension read all json from any locales folder
