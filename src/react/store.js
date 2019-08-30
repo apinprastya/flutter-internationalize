@@ -23,7 +23,8 @@ const intialState = {
     langEdit: '',
     currentLang: '',
     showAddLang: false,
-    langNameValue: ''
+    langNameValue: '',
+    generatedCallback: null,
 };
 
 const vscode = acquireVsCodeApi();
@@ -127,7 +128,7 @@ const mainReducer = (state, action) => {
         }
         case 'generate': {
             vscode.postMessage({ type: 'generate' })
-            return state;
+            return { ...state, generatedCallback: action.callback }
         }
         case 'reload': {
             vscode.postMessage({ type: 'reload' })
@@ -156,6 +157,11 @@ const mainReducer = (state, action) => {
             vscode.postMessage({ type: 'removeLang', payload: state.currentLang })
             return { ...state, langs: state.langs.filter(v => v !== state.currentLang), currentKey: undefined, selectedData: undefined, currentLang: '' }
         }
+        case 'generated': {
+            const { generatedCallback, ...rest } = state;
+            if (generatedCallback != null) generatedCallback();
+            return rest;
+        }
         default: {
             return state;
         }
@@ -172,6 +178,9 @@ const StoreProvider = ({ children }) => {
             }
             case 'saved': {
                 reducer[1]({ type: 'saved' });
+            }
+            case 'generated': {
+                reducer[1]({ type: 'generated' });
             }
         }
     }

@@ -54,7 +54,9 @@ function activate(context) {
 					break;
 				}
 				case 'generate': {
-					_localeManager.generate();
+					_localeManager.generate().then(v => {
+						_panel.webview.postMessage({ type: 'generated' })
+					});
 					break;
 				}
 				case 'reload': {

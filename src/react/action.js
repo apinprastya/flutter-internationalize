@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tooltip, Button, Popconfirm, Dropdown, Menu, Icon } from 'antd'
+import { Tooltip, Button, Popconfirm, Dropdown, Menu, Icon, message } from 'antd'
 import { GlobalStore } from './store'
 
 const Action = (props) => {
@@ -22,7 +22,11 @@ const Action = (props) => {
     }
 
     const onGenerate = () => {
-        dispatch({ type: 'generate' });
+        dispatch({
+            type: 'generate', callback: () => {
+                message.info('Dart code generated', 0.5)
+            }
+        });
     }
 
     const handleMenuClick = (e) => {
