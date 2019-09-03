@@ -10,14 +10,12 @@ import AddLang from './addlang'
 const MainUI = (props) => {
     const [globalState, dispatch] = React.useContext(GlobalStore)
     return !globalState.loaded ? 'Loading...' :
-        <Row>
+        <Row style={{ display: 'flex' }}>
             <Col span={4}>
                 <GroupList />
             </Col>
             <Col span={6}>
-                <div style={{ marginLeft: 10 }}>
-                    <KeyList />
-                </div>
+                <KeyList />
             </Col>
             <Col span={14}>
                 <Editor />

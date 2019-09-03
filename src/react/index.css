@@ -4,7 +4,8 @@
     padding-top: 5px;
     padding-left: 10px;
     cursor: 'pointer';
-    border-bottom: 1px solid #404040
+    border-bottom: 1px solid #404040;
+    overflow-wrap: break-word;
 }
 
 .group-list-selected {
@@ -13,9 +14,10 @@
     padding-top: 5px;
     padding-left: 10px;
     cursor: 'pointer';
-    border-bottom: 1px solid #404040
+    border-bottom: 1px solid #404040;
+    overflow-wrap: break-word;
 }
 
 .group-list:hover {
-    background-color: #2d98fc
+    background-color: #2d98fc;
 }

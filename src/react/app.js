@@ -5,8 +5,10 @@ import MainUI from './mainui';
 
 const App = () => {
     return <StoreProvider>
-        <Control />
-        <MainUI />
+        <div style={{ display: 'flex', flexFlow: 'column', height: '100%', paddingBottom: 10 }}>
+            <Control />
+            <MainUI />
+        </div>
     </StoreProvider>;
 }
 

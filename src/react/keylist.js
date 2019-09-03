@@ -18,7 +18,7 @@ const KeyList = () => {
         dispatch({ type: 'searchReset' })
     }
 
-    return <Fragment>
+    return <div style={{ display: 'flex', flexFlow: 'column', height: '100%', marginLeft: 10 }}>
         <div style={{ textAlign: 'center', backgroundColor: '#303030', paddingTop: 10, paddingBottom: 10, fontWeight: 'bold', borderBottom: '2px solid #404040' }}>
             KEYS
             <div style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -27,11 +27,10 @@ const KeyList = () => {
         </div>
         <List
             rowKey="id"
-            style={{ height: 600, backgroundColor: '#303030', overflowY: 'auto' }}
+            style={{ height: '100%', backgroundColor: '#303030', overflowY: 'auto' }}
             dataSource={globalState.search === '' ?
                 globalState.data[globalState.currentGroup] :
                 globalState.data[globalState.currentGroup].filter(v => {
-                    console.log(`${v._id.toUpperCase()} : ${globalState.search.toUpperCase()}`);
                     return v._id.toUpperCase().includes(globalState.search.toUpperCase());
                 })}
             renderItem={item => {
@@ -41,7 +40,7 @@ const KeyList = () => {
                 </div>
             }}
         />
-    </Fragment>
+    </div>
 }
 
 export default KeyList;

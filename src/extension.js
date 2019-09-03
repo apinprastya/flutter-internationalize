@@ -95,7 +95,7 @@ function getWebviewContent(scriptUri, nonce) {
 	  <title>Flutter Internationalize</title>
   </head>
   <body>
-	  <div id="app"></div>
+	  <div id="app" style="height: 100%; width: 100%;"></div>
 	  <script nonce="${nonce}" src="${scriptUri}"></script>
   </body>
   </html>`;

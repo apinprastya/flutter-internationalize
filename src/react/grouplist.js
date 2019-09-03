@@ -14,12 +14,12 @@ const GroupList = () => {
         dispatch({ type: 'showEditGroup', payload: v })
     }
 
-    return <Fragment>
+    return <div style={{ display: 'flex', flexFlow: 'column', height: '100%' }}>
         <div style={{ textAlign: 'center', backgroundColor: '#303030', paddingTop: 10, paddingBottom: 10, fontWeight: 'bold', borderBottom: '2px solid #404040' }}>
             GROUPS
         </div>
         <List
-            style={{ height: 632, backgroundColor: '#303030' }}
+            style={{ backgroundColor: '#303030', overflowY: 'auto' }}
             rowKey="id"
             dataSource={globalState.groups}
             renderItem={item => {
@@ -29,7 +29,7 @@ const GroupList = () => {
                 </div>
             }}
         />
-    </Fragment>
+    </div>
 }
 
 export default GroupList;
