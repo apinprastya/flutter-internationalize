@@ -142,7 +142,6 @@ Widget build(BuildContext context) {
 }
 ```
 
-**Any issue, bug, request feature, please directly input an issue to github**
-
+**Any contribution are welcome**
 
 **Terima kasih**
