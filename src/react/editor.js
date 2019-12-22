@@ -8,9 +8,17 @@ const Editor = (props) => {
 
     const cols = ['_id', ...globalState.langs];
 
+    const checkUndefined = (obj) => {
+        for (var k in obj) {
+            if (obj[k] === undefined) obj[k] = ''
+        }
+        return obj;
+    }
+
     const onSave = e => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
+            values = checkUndefined(values)
             if (!err) {
                 if (globalState.selectedData._key) dispatch({ type: 'updateRow', payload: values })
                 else dispatch({ type: 'insertNewRow', payload: values })

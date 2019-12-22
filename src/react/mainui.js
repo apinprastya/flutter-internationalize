@@ -10,7 +10,7 @@ import AddLang from './addlang'
 const MainUI = (props) => {
     const [globalState, dispatch] = React.useContext(GlobalStore)
     return !globalState.loaded ? 'Loading...' :
-        <Row style={{ display: 'flex' }}>
+        <Row style={{ display: 'flex', overflowX: 'auto' }}>
             <Col span={4}>
                 <GroupList />
             </Col>
