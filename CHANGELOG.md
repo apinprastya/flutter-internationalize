@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.1.5
+
+- fix bug description empty not saved
+
+## 0.1.4
+
+- fix bug
+
 ## 0.1.3
 
 - implement multi folder on workspace
