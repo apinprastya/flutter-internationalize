@@ -142,6 +142,10 @@ Widget build(BuildContext context) {
 }
 ```
 
+### Example of flutter project
+
+Example can be found at [here](https://github.com/apinprastya/flutter-internationalize/tree/master/example)
+
 **Any contribution are welcome**
 
 **Terima kasih**
