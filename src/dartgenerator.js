@@ -30,7 +30,18 @@ const generate = (rootPath, data) => {
     strGroupClass.push(strGroup);
   }
 
-  let classStr = `import 'dart:convert';
+  let classStr = `// DO NOT EDIT. This is code generated via flutter-internationalize
+// This is a library that provides messages for a locales. All the
+// messages from the main program should be duplicated here with the same
+// function name.
+
+// Ignore issues from commonly used lints in this file.
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
+// ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
+// ignore_for_file:unused_import, file_names
+
+import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 class LocaleBase {
