@@ -1,5 +1,5 @@
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
 
 const generate = (rootPath, data) => {
   let strGroupClass = [];
@@ -25,8 +25,12 @@ const generate = (rootPath, data) => {
   final Map<String, String> _data;
   ${clsName}(this._data);
 
+  String getByKey(String key) {
+    return _data[key];
+  }
+
   ${getter.join('\n  ')}
-}`;
+}\n`;
     strGroupClass.push(strGroup);
   }
 
