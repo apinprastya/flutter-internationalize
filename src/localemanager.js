@@ -176,10 +176,14 @@ class LocaleManager {
             const maxCell = s['!ref'].split(':')[1]
             const maxCol = maxCell.substring(0, 1).charCodeAt(0);
             const maxRow = parseInt(maxCell.substring(1));
+            let realColCount = 66;
             for (let i = 66; i <= maxCol; i++) {
-                idMap[i] = s[`${String.fromCharCode(i)}1`]['v']
-                if (!langInited) {
-                    langs.push(s[`${String.fromCharCode(i)}1`]['v'])
+                if (s[`${String.fromCharCode(i)}1`]) {
+                    idMap[i] = s[`${String.fromCharCode(i)}1`]['v']
+                    if (!langInited) {
+                        langs.push(s[`${String.fromCharCode(i)}1`]['v'])
+                    }
+                    realColCount++;
                 }
             }
             langInited = true;
@@ -192,7 +196,7 @@ class LocaleManager {
                     return;
                 }
                 let obj = { '_id': s[`A${r}`]['v'], '_key': r }
-                for (let c = 66; c <= maxCol; c++) {
+                for (let c = 66; c <= realColCount; c++) {
                     const o1 = s[`${String.fromCharCode(c)}${r}`]
                     if (o1)
                         obj[idMap[c]] = s[`${String.fromCharCode(c)}${r}`]['v']
