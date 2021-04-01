@@ -33,8 +33,8 @@ Here example of the generated file :
 
 ```dart
 class LocaleBase {
-  Map<String, dynamic> _data;
-  String _path;
+  late Map<String, dynamic> _data;
+  late String _path;
   Future<void> load(String path) async {
     _path = path;
     final strJson = await rootBundle.loadString(path);
@@ -48,24 +48,26 @@ class LocaleBase {
 
   String getPath() => _path;
 
-  Localemain _main;
+  late Localemain _main;
   Localemain get main => _main;
-  Localesetting _setting;
-  Localesetting get setting => _setting;
 
   void initAll() {
     _main = Localemain(Map<String, String>.from(_data['main']));
-    _setting = Localesetting(Map<String, String>.from(_data['setting']));
   }
 }
 
 class Localemain {
-  final Map<String, String> _data;
+  late final Map<String, String> _data;
   Localemain(this._data);
 
-  String get sample => _data["sample"];
-  String get save => _data["save"];
-  String get cancel => _data["cancel"];
+  String getByKey(String key) {
+    return _data[key]!;
+  }
+
+  String get sample => _data["sample"]!;
+  String get save => _data["save"]!;
+  String get title => _data["title"]!;
+  String get info => _data["info"]!;
 }
 
 class Localesetting {
