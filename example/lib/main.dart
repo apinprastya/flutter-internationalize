@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 class PageHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loc = Localizations.of<LocaleBase>(context, LocaleBase);
+    final loc = Localizations.of<LocaleBase>(context, LocaleBase)!;
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.main.title),

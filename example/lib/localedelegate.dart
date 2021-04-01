@@ -13,7 +13,7 @@ class LocDelegate extends LocalizationsDelegate<LocaleBase> {
     var lang = 'en';
     if (isSupported(locale)) lang = locale.languageCode;
     final loc = LocaleBase();
-    await loc.load(idMap[lang]);
+    await loc.load(idMap[lang]!);
     return loc;
   }
 

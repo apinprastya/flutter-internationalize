@@ -18,15 +18,15 @@ const generate = (rootPath, data) => {
       if (re.test(v[_def])) {
         //TODO: check params
       }
-      return `String get ${v._id} => _data["${v._id}"];`
+      return `String get ${v._id} => _data["${v._id}"]!;`
     })
 
     let strGroup = `class ${clsName} {
-  final Map<String, String> _data;
+  late final Map<String, String> _data;
   ${clsName}(this._data);
 
   String getByKey(String key) {
-    return _data[key];
+    return _data[key]!;
   }
 
   ${getter.join('\n  ')}
@@ -38,8 +38,8 @@ const generate = (rootPath, data) => {
 import 'package:flutter/services.dart' show rootBundle;
 
 class LocaleBase {
-  Map<String, dynamic> _data;
-  String _path;
+  late Map<String, dynamic> _data;
+  late String _path;
   Future<void> load(String path) async {
     _path = path;
     final strJson = await rootBundle.loadString(path);
