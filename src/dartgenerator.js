@@ -11,7 +11,7 @@ const generate = (rootPath, data) => {
     const d = data[k];
     const _def = data._default;
     const clsName = `Locale${k}`;
-    groups.push(`${clsName} _${k};\n  ${clsName} get ${k} => _${k};`);
+    groups.push(`late ${clsName} _${k};\n  ${clsName} get ${k} => _${k};`);
     groupInit.push(`_${k} = ${clsName}(Map<String, String>.from(_data['${k}']));`);
 
     const getter = d.map(v => {
