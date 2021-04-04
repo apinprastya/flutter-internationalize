@@ -11,6 +11,14 @@ Grouping text for easier managing text
 
 ![Screenshot](https://user-images.githubusercontent.com/1171479/62834791-5dab0880-bc7b-11e9-8672-8d0fa250b688.png)
 
+### Migrating to null-safety
+
+If you want to generate null safety dart code you have to use a version >= 0.2.0 of this extension. 
+Older versions of this extension will generate classic dart code (not null-safety). 
+
+There is an easy way to change extension version in VSCode:
+![Alt text](./doc/ChangeVersion.png?raw=true "Change Version")
+
 
 ## Requirements
 
