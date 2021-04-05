@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.0
+
+- null safety generated code (Daniel Nowendsztern)
+
 ## 0.1.5
 
 - fix bug description empty not saved

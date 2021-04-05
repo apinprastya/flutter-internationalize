@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 class LocaleBase {
-  Map<String, dynamic> _data;
-  String _path;
+  late Map<String, dynamic> _data;
+  late String _path;
   Future<void> load(String path) async {
     _path = path;
     final strJson = await rootBundle.loadString(path);
@@ -17,7 +17,7 @@ class LocaleBase {
 
   String getPath() => _path;
 
-  Localemain _main;
+  late Localemain _main;
   Localemain get main => _main;
 
   void initAll() {
@@ -26,11 +26,16 @@ class LocaleBase {
 }
 
 class Localemain {
-  final Map<String, String> _data;
+  late final Map<String, String> _data;
   Localemain(this._data);
 
-  String get sample => _data["sample"];
-  String get save => _data["save"];
-  String get title => _data["title"];
-  String get info => _data["info"];
+  String getByKey(String key) {
+    return _data[key]!;
+  }
+
+  String get sample => _data["sample"]!;
+  String get save => _data["save"]!;
+  String get title => _data["title"]!;
+  String get info => _data["info"]!;
 }
+

@@ -11,6 +11,14 @@ Grouping text for easier managing text
 
 ![Screenshot](https://user-images.githubusercontent.com/1171479/62834791-5dab0880-bc7b-11e9-8672-8d0fa250b688.png)
 
+### Migrating to null-safety
+
+If you want to generate null safety dart code you have to use a version >= 0.2.0 of this extension. 
+Older versions of this extension will generate classic dart code (not null-safety). 
+
+There is an easy way to change extension version in VSCode:
+![Alt text](./doc/ChangeVersion.png?raw=true "Change Version")
+
 
 ## Requirements
 
@@ -33,8 +41,8 @@ Here example of the generated file :
 
 ```dart
 class LocaleBase {
-  Map<String, dynamic> _data;
-  String _path;
+  late Map<String, dynamic> _data;
+  late String _path;
   Future<void> load(String path) async {
     _path = path;
     final strJson = await rootBundle.loadString(path);
@@ -48,24 +56,26 @@ class LocaleBase {
 
   String getPath() => _path;
 
-  Localemain _main;
+  late Localemain _main;
   Localemain get main => _main;
-  Localesetting _setting;
-  Localesetting get setting => _setting;
 
   void initAll() {
     _main = Localemain(Map<String, String>.from(_data['main']));
-    _setting = Localesetting(Map<String, String>.from(_data['setting']));
   }
 }
 
 class Localemain {
-  final Map<String, String> _data;
+  late final Map<String, String> _data;
   Localemain(this._data);
 
-  String get sample => _data["sample"];
-  String get save => _data["save"];
-  String get cancel => _data["cancel"];
+  String getByKey(String key) {
+    return _data[key]!;
+  }
+
+  String get sample => _data["sample"]!;
+  String get save => _data["save"]!;
+  String get title => _data["title"]!;
+  String get info => _data["info"]!;
 }
 
 class Localesetting {
