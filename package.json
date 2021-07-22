@@ -70,6 +70,6 @@
 		"react-dom": "^16.8.6",
 		"react-resizable": "^1.8.0",
 		"regenerator-runtime": "^0.13.3",
-		"xlsx": "^0.15.0"
+		"xlsx": "^0.17.0"
 	}
 }
